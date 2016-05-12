@@ -11,6 +11,7 @@ INPUT_EXIT = "exit"
 INPUT_EXIT_SHORT = "x"
 INPUT_DISPLAY_ALL = "displayall"
 INPUT_NAMES = "names"
+INPUT_SET_SAVINGS = "setsavings"
 INPUT_PAY = "pay"
 
 #===================
@@ -43,6 +44,19 @@ def parseInstruction(instr, args, categories):
             return False
         try: # For conversion to work
             cat.thisWeek().spend(int(args[1]))
+        except ValueError:
+            return False
+        cat.display()
+        return True
+
+    if instr == INPUT_SET_SAVINGS:
+        if len(args) != 2:
+            return False
+        cat = findCategory(args[0], categories)
+        if cat is None:
+            return False
+        try: # For conversion to work
+            cat.thisWeek().userSetSavings(int(args[1]))
         except ValueError:
             return False
         cat.display()

@@ -62,9 +62,10 @@ class Category:
             printColumnElement("w" + str(week.number % WEEKS_PER_YEAR), True)
             printColumnElement(str(week.maxPerWeek), False)
             printColumnElement(str(week.remainingMoney), False)
-            printColumnElement(str(week.savings), False)
+            smodChar = "*" if week.userModdedSavings else ""
+            printColumnElement(smodChar + str(week.savings), False)
         print("\n" + '-' * DISPLAY_WIDTH)
-        
+
     def thisWeek(self):
         return self.weeks[-1]
     

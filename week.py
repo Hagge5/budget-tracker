@@ -4,6 +4,7 @@ class Week:
     savings = 0
     maxPerWeek = 0
     number = 0 # Unique identifier
+    userModdedSavings = False
 
     def spend(self, amount):
         if self.remainingMoney > amount:
@@ -25,6 +26,10 @@ class Week:
 
     def addToSavings(self, amount):
         self.savings += amount
+
+    def userSetSavings(self, amount):
+        self.savings = amount
+        self.userModdedSavings = True
 
     def __init__(self, number, maxPerWeek):
         self.remainingMoney = 0
