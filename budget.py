@@ -49,11 +49,12 @@ def currentYear():
 def currentUniqueWeek():
     return currentWeek() + WEEKS_PER_YEAR * currentYear()
 
-class Money:
+class Week:
 
     remainingMoney = 0
     savings = 0
     maxPerWeek = 0
+    number = 0 # Unique identifier
 
     def spend(self, amount):
         if self.remainingMoney > amount:
@@ -76,15 +77,15 @@ class Money:
     def addToSavings(self, amount):
         self.savings += amount
 
-    def __init__(self, maxPerWeek):
+    def __init__(self, number, maxPerWeek):
         self.remainingMoney = 0
         self.savings = 0
         self.maxPerWeek = maxPerWeek
+        self.number = number
 
 class Category:
     name = ""
     weeks = []
-    weekNums = []
     moneyPerWeek = 0
 
     def display(self, weeksBack = WEEKS_BACK_STANDARD):
@@ -96,11 +97,11 @@ class Category:
         printColumnElement("Remaining", False)
         printColumnElement("Savings", False)
         print("\n" + '-' * DISPLAY_WIDTH, end="")
-        for i,week in enumerate(self.weeks):
+        for week in self.weeks:
             print("")
-            if self.weekNums[i] < currentUniqueWeek() - weeksBack:
+            if week.number < currentUniqueWeek() - weeksBack:
                 continue
-            printColumnElement("w" + str(self.weekNums[i] % WEEKS_PER_YEAR), True)
+            printColumnElement("w" + str(week.number % WEEKS_PER_YEAR), True)
             printColumnElement(str(week.maxPerWeek), False)
             printColumnElement(str(week.remainingMoney), False)
             printColumnElement(str(week.savings), False)
@@ -110,14 +111,13 @@ class Category:
         return self.weeks[-1]
     
     def newWeek(self):
-        if self.weeks != [] and self.weekNums[-1] == currentUniqueWeek():
+        if self.weeks != [] and self.thisWeek().number == currentUniqueWeek():
             return False
-        new = Money(self.moneyPerWeek)
+        new = Week(currentUniqueWeek(), self.moneyPerWeek)
         new.increase(self.moneyPerWeek)
         if self.weeks != []:
             new.addToSavings(self.thisWeek().savings + self.thisWeek().remainingMoney)
         self.weeks.append(new)
-        self.weekNums.append(currentUniqueWeek())
         return True
     
     def __init__(self, name, maxMoneyPerWeek):
