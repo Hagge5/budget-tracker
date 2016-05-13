@@ -79,6 +79,14 @@ class Category:
         self.weeks.append(new)
         return True
     
+    def __getstate__(self):
+        # Modified behaviour to support
+        # Serializing of the "weeks" member
+        dcpy = self.__dict__.copy()
+        dweeks = {"weeks": self.weeks}
+        dcpy.update(dweeks)
+        return dcpy
+    
     def __init__(self, name, maxMoneyPerWeek):
         self.name = name
         self.moneyPerWeek = maxMoneyPerWeek

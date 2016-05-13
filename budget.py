@@ -20,6 +20,7 @@ INPUT_SET_SAVINGS = "setsavings"
 INPUT_PAY = "pay"
 INPUT_SAVE = "save"
 INPUT_SAVE_SHORT = "s"
+INPUT_ADD_CATEGORY = "newcategory"
 
 #===================
 
@@ -38,7 +39,7 @@ def parseInstruction(instr, args, categories, openedFilename):
         return True
 
     if instr == INPUT_DISPLAY_ALL:
-        weeksback = WEEKS_BACK_STANDARD if args is [] else args[0]
+        weeksback = WEEKS_BACK_STANDARD if args == [] else args[0]
         for e in categories:
             e.display(weeksback)
         return True
@@ -67,6 +68,17 @@ def parseInstruction(instr, args, categories, openedFilename):
         except ValueError:
             return False
         cat.display()
+        return True
+
+    if instr == INPUT_ADD_CATEGORY:
+        if len(args) != 2:
+            return False
+        try: #For number conversion
+            nc = Category(args[0], int(args[1]))
+        except ValueError:
+            return False
+        nc.display()
+        categories.append(nc)
         return True
 
     if instr == INPUT_SAVE or instr == INPUT_SAVE_SHORT:
