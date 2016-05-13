@@ -128,7 +128,11 @@ def main():
     # Opening a saved file
     filename = DEFAULT_FILENAME if len(sys.argv) < 2 else sys.argv[1]
     categories = []
-    if os.path.isfile(filename):
+    if os.path.isfile(filename) and len(sys.argv) < 2:
+        print("Default filename already exists on-disk.")
+        print("Please explicitly provide the filename to load.")
+        return
+    elif os.path.isfile(filename):
         try:
             with open(filename, "rb") as f:
                 categories = pickle.load(f)
