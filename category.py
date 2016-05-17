@@ -90,4 +90,5 @@ class Category:
     def __init__(self, name, maxMoneyPerWeek):
         self.name = name
         self.moneyPerWeek = maxMoneyPerWeek
+        self.weeks = []
         self.newWeek()
