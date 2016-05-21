@@ -25,12 +25,21 @@ INPUT_ADD_CATEGORY = "newcategory"
 #===================
 
 
+# Searches given list of categories for a category
+#   of the given name, and returns it.
+# Returns the category if found, None if not.
 def findCategory(name, categories):
     for e in categories:
         if e.name.lower() == name.lower():
             return e
     return None
 
+# Executes a user instruction.
+# instr is the instruction name, string.
+# args a list of passed arguments, strings.
+# categories a list of all existing categories.
+# openedFilename is the name of the file operated on.
+# Returns True if instruction was legal and run, False if not.
 def parseInstruction(instr, args, categories, openedFilename):
 
     if instr == INPUT_NAMES:
@@ -101,7 +110,9 @@ def parseInstruction(instr, args, categories, openedFilename):
 
     return False
 
-
+# Parse user input until the user exits.
+# categories is the list of categories that the user will modify.
+# openedFilename is the filename to save to, should it occur.
 def workOn(categories, openedFilename):
 
     # Update weeks
@@ -123,7 +134,7 @@ def workOn(categories, openedFilename):
         else:
              if not parseInstruction(inpInstr, inpArgs, categories, openedFilename):
                  print("Illegal statement.")
-             
+# Entry point.
 def main():
     # Opening a saved file
     filename = DEFAULT_FILENAME if len(sys.argv) < 2 else sys.argv[1]
