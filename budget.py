@@ -2,6 +2,7 @@ import sys
 import os
 import shutil
 import pickle
+from datetime import *
 from week import *
 from category import *
 
@@ -24,6 +25,12 @@ INPUT_ADD_CATEGORY = "newcategory"
 
 #===================
 
+# Return todays date as string for backup filenames.
+def dateString():
+    today = str(datetime.today())
+    today = today.replace(" ", "-")
+    today = today.replace(".", "-")
+    return today
 
 # Searches given list of categories for a category
 #   of the given name, and returns it.
@@ -94,7 +101,8 @@ def parseInstruction(instr, args, categories, openedFilename):
         # Make a backup for the file
         if os.path.isfile(openedFilename):
             try:
-                shutil.copyfile(openedFilename, openedFilename + ".bak")
+                newfn = openedFilename + "." + dateString() + ".bak"
+                shutil.copyfile(openedFilename, newfn)
             except OSError:
                 print("OS is preventing the program from making a backup. Stopping.")
                 return True # Not a syntax error
