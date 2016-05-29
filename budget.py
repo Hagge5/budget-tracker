@@ -22,6 +22,7 @@ INPUT_PAY = "pay"
 INPUT_SAVE = "save"
 INPUT_SAVE_SHORT = "s"
 INPUT_ADD_CATEGORY = "newcategory"
+INPUT_SET_WEEKLY = "setweekly"
 
 #===================
 
@@ -114,6 +115,19 @@ def parseInstruction(instr, args, categories, openedFilename):
             print("Failed to open file.")
         except pickle.PicklingError:
             print("Serializing failed.")
+        return True
+
+    if instr == INPUT_SET_WEEKLY:
+        if len(args) != 2:
+            return False
+        cat = findCategory(args[0], categories)
+        if cat is None:
+            return False
+        try: # For conversion to work
+            cat.thisWeek().setMax(int(args[1]))
+        except ValueError:
+            return False
+        cat.display()
         return True
 
     return False
