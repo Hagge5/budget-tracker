@@ -125,6 +125,7 @@ def parseInstruction(instr, args, categories, openedFilename):
             return False
         try: # For conversion to work
             cat.thisWeek().setMax(int(args[1]))
+            cat.moneyPerWeek = int(args[1])
         except ValueError:
             return False
         cat.display()
