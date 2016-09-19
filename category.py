@@ -70,9 +70,9 @@ class Category:
         printColumnElement("Savings", False)
         print("\n" + '-' * DISPLAY_WIDTH, end="")
         for week in self.weeks:
-            print("")
             if week.number < currentUniqueWeek() - weeksBack:
                 continue
+            print("")
             printColumnElement("w" + str(week.number % WEEKS_PER_YEAR), True)
             printColumnElement(str(week.maxPerWeek), False)
             printColumnElement(str(week.remainingMoney), False)
